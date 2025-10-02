@@ -10,7 +10,9 @@ const (
 	endpointGetRegions = "/v1/getRegionsTree"
 )
 
-type Client interface{}
+type Client interface {
+	GetRegions() ([]Region, error)
+}
 
 type client struct {
 	oauthToken string
@@ -27,8 +29,8 @@ func NewClient(oauthToken string) (Client, error) {
 }
 
 // TODO
-type Regions struct{}
+type Region map[string]any
 
-func (c *client) GetRegions() (Regions, error) {
-	return request[Regions](fmt.Sprintf(apiURLFormat, endpointGetRegions), nil, c.oauthToken)
+func (c *client) GetRegions() ([]Region, error) {
+	return request[[]Region](fmt.Sprintf(apiURLFormat, endpointGetRegions), nil, c.oauthToken)
 }
